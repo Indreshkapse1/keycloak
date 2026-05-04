@@ -2,10 +2,13 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import DashboardClientLogger from "./DashboardClientLogger";
 import { handleLogout } from "@/app/actions/logout";
+import Link from "next/link";
+import { SessionWithRoles } from "@/types/auth";
+import { checkRoles } from "@/lib/roles";
 
 export default async function DashboardPage() {
   console.log("[AUTH SERVER] Dashboard page accessed");
-  const session = await auth();
+  const session = (await auth()) as SessionWithRoles | null;
   console.log("[AUTH SERVER] Session retrieved:", session);
 
   if (!session?.user) {
@@ -14,6 +17,8 @@ export default async function DashboardPage() {
   }
 
   console.log("[AUTH SERVER] Valid session found for user:", session.user);
+  
+  const roleChecker = checkRoles(session);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
@@ -175,6 +180,138 @@ export default async function DashboardPage() {
                     </p>
                   </div>
                 </div>
+              </div>
+
+              <div className="rounded-lg border border-gray-200 bg-gray-50 p-6 dark:border-gray-700 dark:bg-gray-900">
+                <h2 className="mb-4 text-xl font-semibold text-gray-900 dark:text-white">
+                  Role-Protected Pages
+                </h2>
+                <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">
+                  Try accessing these pages based on your assigned roles:
+                </p>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {roleChecker.isAdmin() && (
+                    <Link
+                      href="/admin"
+                      className="flex items-center justify-between rounded-lg border border-red-200 bg-red-50 p-4 transition-all hover:border-red-300 hover:bg-red-100 dark:border-red-800 dark:bg-red-900/20 dark:hover:bg-red-900/30"
+                    >
+                      <div>
+                        <p className="font-semibold text-red-900 dark:text-red-200">
+                          Admin Panel
+                        </p>
+                        <p className="text-xs text-red-700 dark:text-red-400">
+                          Requires: admin role
+                        </p>
+                      </div>
+                      <svg
+                        className="h-5 w-5 text-red-600 dark:text-red-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </Link>
+                  )}
+                  
+                  {roleChecker.hasRealmRole("manager") && (
+                    <Link
+                      href="/manager"
+                      className="flex items-center justify-between rounded-lg border border-green-200 bg-green-50 p-4 transition-all hover:border-green-300 hover:bg-green-100 dark:border-green-800 dark:bg-green-900/20 dark:hover:bg-green-900/30"
+                    >
+                      <div>
+                        <p className="font-semibold text-green-900 dark:text-green-200">
+                          Manager Dashboard
+                        </p>
+                        <p className="text-xs text-green-700 dark:text-green-400">
+                          Requires: manager role
+                        </p>
+                      </div>
+                      <svg
+                        className="h-5 w-5 text-green-600 dark:text-green-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </Link>
+                  )}
+                  
+                  {roleChecker.hasClientRole("myclient", "client-admin") && (
+                    <Link
+                      href="/client-admin"
+                      className="flex items-center justify-between rounded-lg border border-blue-200 bg-blue-50 p-4 transition-all hover:border-blue-300 hover:bg-blue-100 dark:border-blue-800 dark:bg-blue-900/20 dark:hover:bg-blue-900/30"
+                    >
+                      <div>
+                        <p className="font-semibold text-blue-900 dark:text-blue-200">
+                          Client Admin
+                        </p>
+                        <p className="text-xs text-blue-700 dark:text-blue-400">
+                          Requires: myclient/client-admin
+                        </p>
+                      </div>
+                      <svg
+                        className="h-5 w-5 text-blue-600 dark:text-blue-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </Link>
+                  )}
+                  
+                  <Link
+                    href="/api-example"
+                    className="flex items-center justify-between rounded-lg border border-purple-200 bg-purple-50 p-4 transition-all hover:border-purple-300 hover:bg-purple-100 dark:border-purple-800 dark:bg-purple-900/20 dark:hover:bg-purple-900/30"
+                  >
+                    <div>
+                      <p className="font-semibold text-purple-900 dark:text-purple-200">
+                        API Example
+                      </p>
+                      <p className="text-xs text-purple-700 dark:text-purple-400">
+                        Role-protected API route
+                      </p>
+                    </div>
+                    <svg
+                      className="h-5 w-5 text-purple-600 dark:text-purple-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </Link>
+                </div>
+                
+                {!roleChecker.isAdmin() && !roleChecker.hasRealmRole("manager") && !roleChecker.hasClientRole("myclient", "client-admin") && (
+                  <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-3 dark:border-amber-800 dark:bg-amber-900/20">
+                    <p className="text-sm text-amber-800 dark:text-amber-300">
+                      💡 You don't have any special roles assigned. Contact your administrator to access protected pages.
+                    </p>
+                  </div>
+                )}
               </div>
 
               <form action={handleLogout}>
