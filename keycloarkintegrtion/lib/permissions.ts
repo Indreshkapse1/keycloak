@@ -22,21 +22,21 @@ export class PermissionChecker {
     }
 
     try {
-      const response = await fetch(
-        `http://localhost:8080/realms/my-new-realm/protocol/openid-connect/token`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          body: new URLSearchParams({
-            grant_type: "urn:ietf:params:oauth:grant-type:uma-ticket",
-            audience: "my-app",
-            permission: `${resourceName}#${scope}`,
-            subject_token: this.accessToken,
-          }),
-        }
-      );
+      const tokenUrl =
+        process.env.NEXT_PUBLIC_KEYCLOAK_TOKEN_URL ||
+        "http://localhost:8081/realms/myrealm/protocol/openid-connect/token";
+      const response = await fetch(tokenUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          grant_type: "urn:ietf:params:oauth:grant-type:uma-ticket",
+          audience: "my-app",
+          permission: `${resourceName}#${scope}`,
+          subject_token: this.accessToken,
+        }),
+      });
 
       if (response.ok) {
         return {
