@@ -23,9 +23,14 @@ function decodeJWT(token: string) {
 export const authConfig = {
   providers: [
     Keycloak({
-      clientId: "myclient",
-      clientSecret: "",
-      issuer: "http://localhost:8080/realms/myrealm",
+      clientId: "my-app",//"myclient",
+      clientSecret: "AARzqXAgqpQgnXjcNtXXHZT48cppL5c1",
+      issuer: "http://localhost:8080/realms/my-new-realm",
+      authorization: {
+        params: {
+          scope: "openid email profile",
+        },
+      },
     }),
   ],
   callbacks: {
@@ -80,13 +85,11 @@ export const authConfig = {
         session.user.email = token.email as string;
         session.user.name = token.name as string;
         (session.user as any).roles = token.roles || [];
+        (session as any).accessToken = token.accessToken;
       }
       console.log("[AUTH] Final session object:", session);
       console.log("[AUTH] User roles in session:", (session.user as any).roles);
       return session;
     },
-  },
-  pages: {
-    signIn: "/login",
   },
 } satisfies NextAuthConfig;

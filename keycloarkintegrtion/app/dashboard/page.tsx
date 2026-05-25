@@ -303,6 +303,60 @@ export default async function DashboardPage() {
                       />
                     </svg>
                   </Link>
+                  
+                  <Link
+                    href="/documents"
+                    className="flex items-center justify-between rounded-lg border border-indigo-200 bg-indigo-50 p-4 transition-all hover:border-indigo-300 hover:bg-indigo-100 dark:border-indigo-800 dark:bg-indigo-900/20 dark:hover:bg-indigo-900/30"
+                  >
+                    <div>
+                      <p className="font-semibold text-indigo-900 dark:text-indigo-200">
+                        📄 Document Management
+                      </p>
+                      <p className="text-xs text-indigo-700 dark:text-indigo-400">
+                        Resource-based permissions
+                      </p>
+                    </div>
+                    <svg
+                      className="h-5 w-5 text-indigo-600 dark:text-indigo-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </Link>
+
+                  <Link
+                    href="/reports"
+                    className="flex items-center justify-between rounded-lg border border-green-200 bg-green-50 p-4 transition-all hover:border-green-300 hover:bg-green-100 dark:border-green-800 dark:bg-green-900/20 dark:hover:bg-green-900/30"
+                  >
+                    <div>
+                      <p className="font-semibold text-green-900 dark:text-green-200">
+                        📊 Reports API Testing
+                      </p>
+                      <p className="text-xs text-green-700 dark:text-green-400">
+                        Test view, edit, delete permissions
+                      </p>
+                    </div>
+                    <svg
+                      className="h-5 w-5 text-green-600 dark:text-green-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </Link>
                 </div>
                 
                 {!roleChecker.isAdmin() && !roleChecker.hasRealmRole("manager") && !roleChecker.hasClientRole("myclient", "client-admin") && (

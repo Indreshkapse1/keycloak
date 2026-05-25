@@ -1,0 +1,128 @@
+{
+  "allowRemoteResourceManagement": true,
+  "policyEnforcementMode": "ENFORCING",
+  "resources": [
+    {
+      "name": "reports-api",
+      "type": "api",
+      "ownerManagedAccess": false,
+      "displayName": "Reports API",
+      "attributes": {},
+      "uris": [
+        "/api/reports"
+      ],
+      "scopes": [
+        {
+          "name": "view"
+        },
+        {
+          "name": "edit"
+        },
+        {
+          "name": "delete"
+        }
+      ],
+      "icon_uri": ""
+    }
+  ],
+  "policies": [
+    {
+      "name": "user-a-policy",
+      "description": "User A policy",
+      "type": "user",
+      "logic": "POSITIVE",
+      "decisionStrategy": "UNANIMOUS",
+      "config": {
+        "users": "[\"myuser\"]"
+      }
+    },
+    {
+      "name": "user-c-policy",
+      "description": "User C policy",
+      "type": "user",
+      "logic": "POSITIVE",
+      "decisionStrategy": "UNANIMOUS",
+      "config": {
+        "users": "[\"myuser2\"]"
+      }
+    },
+    {
+      "name": "user-d-policy",
+      "description": "User D policy",
+      "type": "user",
+      "logic": "POSITIVE",
+      "decisionStrategy": "UNANIMOUS",
+      "config": {
+        "users": "[\"myuser3\"]"
+      }
+    }
+  ],
+  "scopes": [
+    {
+      "name": "view",
+      "iconUri": "",
+      "displayName": "View"
+    },
+    {
+      "name": "edit",
+      "iconUri": "",
+      "displayName": "Edit"
+    },
+    {
+      "name": "delete",
+      "iconUri": "",
+      "displayName": "Delete"
+    }
+  ],
+  "permissions": [
+    {
+      "name": "user-a-view-reports",
+      "description": "User A can view reports",
+      "type": "resource",
+      "logic": "POSITIVE",
+      "decisionStrategy": "AFFIRMATIVE",
+      "config": {
+        "resources": "[\"reports-api\"]",
+        "scopes": "[\"view\"]",
+        "applyPolicies": "[\"user-a-policy\"]"
+      }
+    },
+    {
+      "name": "user-c-view-reports",
+      "description": "User C can view reports",
+      "type": "resource",
+      "logic": "POSITIVE",
+      "decisionStrategy": "AFFIRMATIVE",
+      "config": {
+        "resources": "[\"reports-api\"]",
+        "scopes": "[\"view\"]",
+        "applyPolicies": "[\"user-c-policy\"]"
+      }
+    },
+    {
+      "name": "user-c-edit-reports",
+      "description": "User C can edit reports",
+      "type": "resource",
+      "logic": "POSITIVE",
+      "decisionStrategy": "AFFIRMATIVE",
+      "config": {
+        "resources": "[\"reports-api\"]",
+        "scopes": "[\"edit\"]",
+        "applyPolicies": "[\"user-c-policy\"]"
+      }
+    },
+    {
+      "name": "user-d-view-reports",
+      "description": "User D can view reports",
+      "type": "resource",
+      "logic": "POSITIVE",
+      "decisionStrategy": "AFFIRMATIVE",
+      "config": {
+        "resources": "[\"reports-api\"]",
+        "scopes": "[\"view\"]",
+        "applyPolicies": "[\"user-d-policy\"]"
+      }
+    }
+  ],
+  "decisionStrategy": "AFFIRMATIVE"
+}
