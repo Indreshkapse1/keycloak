@@ -23,9 +23,9 @@ function decodeJWT(token: string) {
 export const authConfig = {
   providers: [
     Keycloak({
-      clientId: "my-app",//"myclient",
-      clientSecret: "AARzqXAgqpQgnXjcNtXXHZT48cppL5c1",
-      issuer: "http://localhost:8080/realms/my-new-realm",
+      clientId: process.env.AUTH_KEYCLOAK_ID,
+      clientSecret: process.env.AUTH_KEYCLOAK_SECRET,
+      issuer: process.env.AUTH_KEYCLOAK_ISSUER,
       authorization: {
         params: {
           scope: "openid email profile",
