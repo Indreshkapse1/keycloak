@@ -24,7 +24,7 @@ export class PermissionChecker {
     try {
       const tokenUrl =
         process.env.NEXT_PUBLIC_KEYCLOAK_TOKEN_URL ||
-        "http://localhost:8081/realms/myrealm/protocol/openid-connect/token";
+        "http://localhost:8080/realms/my-new-realm/protocol/openid-connect/token";
       const response = await fetch(tokenUrl, {
         method: "POST",
         headers: {

@@ -357,6 +357,60 @@ export default async function DashboardPage() {
                       />
                     </svg>
                   </Link>
+
+                  <Link
+                    href="/abac"
+                    className="flex items-center justify-between rounded-lg border border-indigo-200 bg-indigo-50 p-4 transition-all hover:border-indigo-300 hover:bg-indigo-100 dark:border-indigo-800 dark:bg-indigo-900/20 dark:hover:bg-indigo-900/30"
+                  >
+                    <div>
+                      <p className="font-semibold text-indigo-900 dark:text-indigo-200">
+                        🔐 ABAC Testing
+                      </p>
+                      <p className="text-xs text-indigo-700 dark:text-indigo-400">
+                        Test attribute-based access control
+                      </p>
+                    </div>
+                    <svg
+                      className="h-5 w-5 text-indigo-600 dark:text-indigo-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </Link>
+
+                  <Link
+                    href="/debug"
+                    className="flex items-center justify-between rounded-lg border border-gray-200 bg-gray-50 p-4 transition-all hover:border-gray-300 hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-900/20 dark:hover:bg-gray-900/30"
+                  >
+                    <div>
+                      <p className="font-semibold text-gray-900 dark:text-gray-200">
+                        🔍 Debug Token
+                      </p>
+                      <p className="text-xs text-gray-700 dark:text-gray-400">
+                        View decoded JWT token claims
+                      </p>
+                    </div>
+                    <svg
+                      className="h-5 w-5 text-gray-600 dark:text-gray-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </Link>
                 </div>
                 
                 {!roleChecker.isAdmin() && !roleChecker.hasRealmRole("manager") && !roleChecker.hasClientRole("myclient", "client-admin") && (
